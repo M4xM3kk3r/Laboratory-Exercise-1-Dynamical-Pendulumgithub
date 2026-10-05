@@ -10,13 +10,14 @@
 \usepackage{float}
 \usepackage[hidelinks]{hyperref}
 
+\newcommand{\manual}[1]{(Laboratory manual, p.~#1)}
+
 \begin{document}
+
 
 \title{Laboratory Exercise 1: Dynamical Pendulum}
 \author{Magnus Støren Wedèn, Jon Magnus Vårheim, Birk Holm Broen}
 \date{September 2026}
-
-\begin{document}
 
 \maketitle
 
@@ -24,15 +25,47 @@
 Laboratory exercise 1 will analyse a cart-pendulum system to study equilibrium, stability and feedback control. There are three sections to this lab, stable point 1 where the controller is not active, this causes the pendulum to hang downwards due to gravity, stable point 2 occurs when the controller is active attempting to force the tip of the pendulum stay upright and finally the situation where the controller is active and exposed to outside disturbance. 
 
 
-\section{method}
+\section{Method}
+
+\section{First watch observations}
+An initial qualitative review of the video was used to identify
+the main phases of the experiment before taking detailed
+measurements. The review focused on the overall motion of the
+pendulum and cart, changes in operating condition, and possible
+disturbance events. This follows the observation procedure
+described in the laboratory manual. \manual{3--4}
+
+The recording was divided into intervals covering natural motion
+around Stable Point 1 (SP1), controlled operation around Stable
+Point 2 (SP2), and disturbances during upright operation.
+SP1 denotes the naturally stable downward equilibrium, whereas
+SP2 denotes the upright equilibrium maintained by feedback
+control. \manual{2, 6--8}
+
+For the SP1 intervals, the analysis considers displacement and
+release of the pendulum, its subsequent oscillation about the
+downward equilibrium, and any visible cart motion.
+For the SP2 intervals, the analysis considers angular deviations
+from upright and the associated corrective cart movements.
+The disturbance interval is examined more closely to identify
+changes in motion, the sequence of visible responses, and the
+subsequent recovery or loss of stabilisation.
+\manual{10--11, 14--20}
+
+Table~\ref{tab:intervals} lists the selected analysis intervals.
+Timestamps refer to the original recording and use the format
+hh:mm:ss.sss. The timestamps and frame boundaries were obtained
+from the segment exports and matched by segment name.
+The interval descriptions identify the intended focus of the
+analysis; they do not establish the cause of an observed event.
 
 
-{\Large General one-time measurements}
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \small
     \caption{Selected analysis intervals in the original video,
     with timestamps and exported frame boundaries.}
+    
     \label{tab:intervals}
     \begin{tabular}{@{}lccrr@{}}
         \toprule
@@ -66,12 +99,466 @@ Laboratory exercise 1 will analyse a cart-pendulum system to study equilibrium, 
     \end{tabular}
 \end{table}
 
+Record video frame rate $f_\text{video}$ and frame duration $\Delta t_\text{frame} = 1/f_\text{video}$\newline
+
+\begin{gather}
+t = 00{:}00{:}08.041 = 8.041~\text{s} \nonumber \\
+f_\text{video} = \frac{N}{t} \label{eq:fvideo} \\
+f_\text{video} = \frac{241}{8.041~\text{s}} \approx 29.97~\text{frames/s} \nonumber \\
+\Delta t_\text{frame} = \frac{1}{f_\text{video}} \label{eq:dtframe} \\
+\Delta t_\text{frame} = \frac{1}{29.97~\text{frames/s}} \approx 0.0334~\text{s} \nonumber
+\end{gather}
+
+
+\subsection{Candidate disturbance-event windows}
+\label{sec:disturbance-windows}
+
+Within the selected disturbance sequence, five candidate
+event windows were marked for closer inspection, as listed
+in Table~\ref{tab:disturbance-windows}.
+These windows guide the frame-by-frame analysis.
+They are preliminary event locations, rather than confirmed
+disturbance durations or onset-time uncertainty intervals.
+
+For each candidate event, direct observations are recorded
+before a disturbance mechanism is proposed. The analysis
+considers which component responds first, whether corrective
+cart motion remains visible, and whether the pendulum returns
+to upright operation. Where the evidence does not support a
+reliable explanation, the disturbance is classified as unknown.
+\manual{3--4, 17--20}
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Preliminary disturbance-event windows in the
+    original video. Timestamps use hh:mm:ss.sss.}
+    \label{tab:disturbance-windows}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Candidate event & Window start & Window end \\
+        \midrule
+        D1 & 00:01:55.215 & 00:01:55.248 \\
+        D2 & 00:01:56.083 & 00:01:56.116 \\
+        D3 & 00:01:56.850 & 00:01:56.950 \\
+        D4 & 00:01:57.784 & 00:01:57.884 \\
+        D5 & 00:02:00.354 & 00:02:00.454 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Settle point 1}
+\begin{table}[H]
+    \centering
+    \caption{SP1: all four measurements}
+    \label{tab:sp1_all}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \multicolumn{4}{c|}{\textbf{Measurement}} \\
+        \cline{3-6}
+         & & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} \\
+        \hline
+        Release time (s)                        & $t_0$              & 33.000 & 32.933 & 32.799 & 33.066 \\ \hline
+        Initial angular displacement ($^\circ$) & $\tilde{\theta}_0$ & 170.1  & 171.4  & 172.0  & 169.2  \\ \hline
+        First selected peak ($^\circ$)          & $\tilde{\theta}_1$ & 141.7  & 144.7  & 141.4  & 142.3  \\ \hline
+        Second selected peak ($^\circ$)         & $\tilde{\theta}_2$ & 30.2   & 30.0   & 27.6   & 28.2   \\ \hline
+        Third selected peak ($^\circ$)          & $\tilde{\theta}_3$ & 157.2  & 158.6  & 157.6  & 159.8  \\ \hline
+        Time of first selected peak (s)         & $t_1$              & 34.401 & 34.434 & 34.468 & 34.368 \\ \hline
+        Time of second selected peak (s)        & $t_2$              & 35.235 & 35.202 & 35.269 & 35.168 \\ \hline
+        Time of third selected peak (s)         & $t_3$              & 35.936 & 36.903 & 35.969 & 36.003 \\ \hline
+        Settling time (s)                       & $t_s$              & not visible & not visible & not visible  &    not visible    \\ \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{align}
+T_i &= t_{i+1} - t_i \label{eq:Ti} \\
+\bar{T} &= \frac{1}{n}\sum_{i=1}^{n} T_i \label{eq:Tmean} \\
+f_d &= \frac{1}{\bar{T}} \label{eq:fd} \\
+\omega_d &= 2\pi f_d \label{eq:wd} \\
+r_i &= \frac{|\tilde{\theta}_{i+1}|}{|\tilde{\theta}_i|} \label{eq:ri} \\
+\bar{r} &= \frac{1}{n_r}\sum_{i=1}^{n_r} r_i \label{eq:rmean} \\
+\bar{x} &= \frac{\sum x_i}{N} \label{eq:mean} \\
+SD_\text{sample} &= \sqrt{\frac{\sum \left(x_i-\bar{x}\right)^2}{N-1}} \label{eq:sd}
+\end{align}
 
 
 
+Example calculation for measurement 1:
+\begin{align*}
+T_1 &= 35.235 - 34.401 = 0.834~\text{s} \\
+T_2 &= 35.936 - 35.235 = 0.701~\text{s} \\
+\bar{T} &= \frac{0.834 + 0.701}{2} = 0.768~\text{s} \\
+f_d &= \frac{1}{0.768~\text{s}} = 1.303~\text{Hz} \\
+\omega_d &= 2\pi \cdot 1.303~\text{Hz} = 8.187~\text{rad/s} \\
+r_1 &= \frac{30.2}{141.7} = 0.213 \\
+r_2 &= \frac{157.2}{30.2} = 5.205 \\
+\bar{r} &= \frac{0.213 + 5.205}{2} = 2.709
+\end{align*}
+
+Example standard deviation, mean period over the four measurements:
+\begin{align*}
+\bar{T} &= \frac{0.768 + 1.235 + 0.751 + 0.818}{4} = 0.893~\text{s} \\
+SD_{T} &= \sqrt{\frac{(0.768-0.893)^2 + (1.235-0.893)^2 + (0.751-0.893)^2 + (0.818-0.893)^2}{4-1}} \\
+SD_{T} &= \sqrt{\frac{0.1584}{3}} = 0.230~\text{s}
+\end{align*}
+
+\begin{table}[H]
+    \centering
+    \caption{SP1: final values, given as mean $\pm$ sample standard deviation ($N = 4$).}
+    \label{tab:sp1_results}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \textbf{Value} \\
+        \hline
+        Mean period                    & $\bar{T}$  & $0.893 \pm 0.230$~s \\ \hline
+        Observed oscillation frequency & $f_d$      & $1.167 \pm 0.243$~Hz \\ \hline
+        Damped angular frequency       & $\omega_d$ & $7.334 \pm 1.524$~rad/s \\ \hline
+        Mean amplitude ratio           & $\bar{r}$  & $2.835 \pm 0.125$ \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Settle point 2}
+\begin{table}[H]
+    \centering
+    \caption{SP2: all four measurements}
+    \label{tab:sp2_all}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \multicolumn{4}{c|}{\textbf{Measurement}} & \textbf{Mean} & \textbf{s} \\
+        \cline{3-6}
+         & & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & & \\
+        \hline
+        Beginning of controlled operation (s) & $t_\text{on}$               & 53.020 & 53.053 & 52.986 & 52.953 & 53.003 & 0.043 \\ \hline
+        Maximum positive deviation ($^\circ$) & $\tilde{\theta}_\text{max}$ & 4.1    & 2.3    & 3.2    & 4.9    & 3.6    & 1.1   \\ \hline
+        Maximum negative deviation ($^\circ$) & $\tilde{\theta}_\text{min}$ & $-0.9$ & $-3.8$ & $-2.8$ & $-2.6$ & $-2.5$ & 1.2   \\ \hline
+        Maximum cart position (px)            & $x_\text{max}$              & 1184   & 1181   & 1186   & 1183   & 1183.5 & 2.1   \\ \hline
+        Minimum cart position (px)            & $x_\text{min}$              & 765.8  & 759.0  & 749.5  & 755.5  & 757.5  & 6.8   \\ \hline
+        Stabilisation time (s)                & $t_\text{stab}$             & 0.334  & 2.369  & 3.170  & 1.501  & 1.84   & 1.22  \\ \hline
+    \end{tabular}
+\end{table}
+
+% ---------- Results section ----------
+Example mean and standard deviation, beginning of controlled operation, using Eqs.~\eqref{eq:mean} and \eqref{eq:sd}:
+\begin{align*}
+\bar{t}_\text{on} &= \frac{53.020 + 53.053 + 52.986 + 52.953}{4} = 53.003~\text{s} \\
+SD_{t_\text{on}} &= \sqrt{\frac{(53.020-53.003)^2 + (53.053-53.003)^2 + (52.986-53.003)^2 + (52.953-53.003)^2}{4-1}} \\
+SD_{t_\text{on}} &= \sqrt{\frac{0.005578}{3}} = 0.043~\text{s}
+\end{align*}
+
+% ---------- Results section ----------
+\begin{align}
+\theta_\text{range} &= \tilde{\theta}_\text{max} - \tilde{\theta}_\text{min} \label{eq:thrange} \\
+\tilde{\theta}_\text{abs,max} &= \max_t |\tilde{\theta}(t)| \label{eq:thabs} \\
+x_\text{range} &= x_\text{max} - x_\text{min} \label{eq:xrange}
+\end{align}
+
+Example calculation for measurement 1:
+\begin{align*}
+\theta_\text{range} &= 4.1^\circ - (-0.9^\circ) = 5.0^\circ \\
+\tilde{\theta}_\text{abs,max} &= \max\left(|4.1^\circ|, |-0.9^\circ|\right) = 4.1^\circ \\
+x_\text{range} &= 1184~\text{px} - 765.8~\text{px} = 418.2~\text{px}
+\end{align*}
+
+Example standard deviation, angular operating range over the four measurements, using Eq.~\eqref{eq:sd}:
+\begin{align*}
+\bar{\theta}_\text{range} &= \frac{5.0 + 6.1 + 6.0 + 7.5}{4} = 6.15^\circ \\
+SD_{\theta_\text{range}} &= \sqrt{\frac{(5.0-6.15)^2 + (6.1-6.15)^2 + (6.0-6.15)^2 + (7.5-6.15)^2}{4-1}} \\
+SD_{\theta_\text{range}} &= \sqrt{\frac{3.17}{3}} = 1.03^\circ
+\end{align*}
+
+\begin{table}[H]
+    \centering
+    \caption{SP2: final values, given as mean $\pm$ sample standard deviation ($N = 4$).}
+    \label{tab:sp2_results}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \textbf{Value} \\
+        \hline
+        Angular operating range        & $\theta_\text{range}$          & $6.15 \pm 1.03^\circ$ \\ \hline
+        Maximum absolute deviation     & $\tilde{\theta}_\text{abs,max}$ & $4.00 \pm 0.71^\circ$ \\ \hline
+        Cart-position range            & $x_\text{range}$               & $426.1 \pm 7.9$~px \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Linearisation around SP2}
+
+The simplified nonlinear equation for the pendulum near the upright position is
+\begin{equation}
+J_p\ddot{\theta} + b_p\dot{\theta} - mgl\sin\theta = -ml\ddot{x}\cos\theta.
+\label{eq:nonlinear}
+\end{equation}
+The constants are $m = 0.120$~kg, $J_p = 0.0139231$~kg\,m$^2$,
+$b_p = 1.07443\times10^{-4}$~N\,m\,s/rad and $g = 9.81$~m/s$^2$
+\manual{9}. The distance $l$ is not given. Since
+$J_p = J_\text{cm} + ml^2 \ge ml^2$, it is bounded by
+\begin{equation*}
+l \le \sqrt{\frac{J_p}{m}} = \sqrt{\frac{0.0139231}{0.120}} = 0.341~\text{m},
+\end{equation*}
+and this upper value is used as an estimate below.
+
+\paragraph{Step 1: Taylor expansions.}
+First-order Taylor expansions around $\hat{\theta} = 0$ give
+\begin{align}
+\sin\theta &\approx \sin\hat{\theta} + \cos\hat{\theta}\,(\theta - \hat{\theta}) = \tilde{\theta}, \label{eq:sin_lin} \\
+\cos\theta &\approx \cos\hat{\theta} - \sin\hat{\theta}\,(\theta - \hat{\theta}) = 1. \label{eq:cos_lin}
+\end{align}
+At the largest measured deviation, $4.9^\circ = 0.0855$~rad (Table~\ref{tab:sp2_all}),
+\begin{align*}
+\frac{\tilde{\theta} - \sin\tilde{\theta}}{\sin\tilde{\theta}} &= \frac{0.0855 - 0.0854}{0.0854} \approx 0.12\,\%, \\
+\frac{1 - \cos\tilde{\theta}}{\cos\tilde{\theta}} &= \frac{1 - 0.9963}{0.9963} \approx 0.37\,\%.
+\end{align*}
+
+\paragraph{Step 2: Substitution.}
+With $\theta = \hat{\theta} + \tilde{\theta}$ and $x = \hat{x} + \tilde{x}$, the derivatives become
+\begin{equation*}
+\dot{\theta} = \dot{\hat{\theta}} + \dot{\tilde{\theta}}, \qquad
+\ddot{\theta} = \ddot{\hat{\theta}} + \ddot{\tilde{\theta}}, \qquad
+\ddot{x} = \ddot{\hat{x}} + \ddot{\tilde{x}}.
+\end{equation*}
+Inserting these and Eqs.~\eqref{eq:sin_lin}--\eqref{eq:cos_lin} into Eq.~\eqref{eq:nonlinear} gives
+\begin{equation*}
+J_p\left(\ddot{\hat{\theta}} + \ddot{\tilde{\theta}}\right)
++ b_p\left(\dot{\hat{\theta}} + \dot{\tilde{\theta}}\right)
+- mgl\left(\sin\hat{\theta} + \cos\hat{\theta}\,\tilde{\theta}\right)
+= -ml\left(\ddot{\hat{x}} + \ddot{\tilde{x}}\right)\left(\cos\hat{\theta} - \sin\hat{\theta}\,\tilde{\theta}\right).
+\end{equation*}
+
+\paragraph{Step 3: Equilibrium terms.}
+At the operating point, $\hat{\theta} = \dot{\hat{\theta}} = \ddot{\hat{\theta}} = 0$, and $\hat{x} = x_\text{ref}$ is constant, so $\ddot{\hat{x}} = 0$.
+The equilibrium equation reduces to $0 = 0$, and all operating-point terms drop out:
+\begin{equation*}
+J_p\ddot{\tilde{\theta}} + b_p\dot{\tilde{\theta}} - mgl\,\tilde{\theta}
+= -ml\,\ddot{\tilde{x}}\left(1 - 0\cdot\tilde{\theta}\right).
+\end{equation*}
+
+\paragraph{Step 4: Small deviations.}
+The remaining product $\ddot{\tilde{x}}\,\tilde{\theta}$ is of second order in the small deviations and is multiplied by $\sin\hat{\theta} = 0$, so it is neglected.
+
+\paragraph{Step 5: Linearised equation.}
+The linearised small-deviation equation is
+\begin{equation}
+J_p\ddot{\tilde{\theta}} + b_p\dot{\tilde{\theta}} - mgl\,\tilde{\theta} = -ml\,\ddot{\tilde{x}}.
+\label{eq:linearised}
+\end{equation}
+With $mgl = 0.120 \cdot 9.81 \cdot 0.341 = 0.401$~N\,m and $ml = 0.120 \cdot 0.341 = 0.0409$~kg\,m,
+\begin{equation*}
+0.01392\,\ddot{\tilde{\theta}} + 1.074\times10^{-4}\,\dot{\tilde{\theta}} - 0.401\,\tilde{\theta} = -0.0409\,\ddot{\tilde{x}},
+\end{equation*}
+or, solved for the angular acceleration,
+\begin{equation*}
+\ddot{\tilde{\theta}} = 28.8\,\tilde{\theta} - 0.0077\,\dot{\tilde{\theta}} - 2.94\,\ddot{\tilde{x}}.
+\end{equation*}
+
+\paragraph{Step 6: Instability without control.}
+Without control, $\ddot{\tilde{x}} = 0$, and the gravitational term $+28.8\,\tilde{\theta}$ has the same sign as $\tilde{\theta}$.
+Any deviation therefore produces an angular acceleration away from the upright position.
+The characteristic equation of Eq.~\eqref{eq:linearised} with $\ddot{\tilde{x}} = 0$ is
+\begin{equation}
+J_p s^2 + b_p s - mgl = 0.
+\label{eq:char}
+\end{equation}
+With the values above,
+\begin{align*}
+s &= \frac{-b_p \pm \sqrt{b_p^2 + 4J_p\,mgl}}{2J_p}
+= \frac{-1.074\times10^{-4} \pm \sqrt{0.02233}}{2 \cdot 0.01392}, \\
+s_1 &= 5.36~\text{s}^{-1}, \qquad s_2 = -5.37~\text{s}^{-1}.
+\end{align*}
+The positive root $s_1$ means the deviation grows as $e^{5.36t}$ and doubles every
+\begin{equation*}
+t_2 = \frac{\ln 2}{s_1} = \frac{0.693}{5.36~\text{s}^{-1}} = 0.13~\text{s}.
+\end{equation*}
+
+\paragraph{Step 7: Stabilisation by cart acceleration.}
+The term $-\left(ml/J_p\right)\ddot{\tilde{x}}$ allows the cart to counteract gravity.
+If the cart accelerates in proportion to the angular deviation, $\ddot{\tilde{x}} = k\,\tilde{\theta}$, Eq.~\eqref{eq:linearised} becomes
+\begin{equation}
+J_p\ddot{\tilde{\theta}} + b_p\dot{\tilde{\theta}} + \left(mlk - mgl\right)\tilde{\theta} = 0.
+\label{eq:controlled}
+\end{equation}
+For $k > g = 9.81$~m/s$^2$ per radian, the coefficient of $\tilde{\theta}$ becomes positive and the net effect is restoring.
+At the mean maximum deviation $\tilde{\theta}_\text{abs,max} = 4.00^\circ = 0.0698$~rad (Table~\ref{tab:sp2_results}), this requires a cart acceleration of at least
+\begin{equation*}
+\ddot{\tilde{x}} > g\,\tilde{\theta} = 9.81 \cdot 0.0698 = 0.68~\text{m/s}^2.
+\end{equation*}
+The cart thus moves under the pendulum in the direction in which it is falling.
+
+\section{SP2 with disturbances: }
+\begin{table}[H]
+    \centering
+    \caption{Disturbance SP2: all four measurements. No.\ = measurement.event.
+    $u_\theta$ and $u_x$ are the sample standard deviations of the four
+    measurements of each event.}
+    \label{tab:sp2_disturbance}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        No.
+        & $t_d \pm u_{t_d}$ (s)
+        & $\tilde{\theta}_\text{max} \pm u_\theta$ ($^\circ$)
+        & $\Delta x_\text{max} \pm u_x$ (px)
+        & $t_r \pm u_{t_r}$ (s) \\
+        \hline
+        1.1 & $115.182 \pm 0.033$ & $3.2 \pm 0.60$ & $75.3 \pm 11.6$  & not achieved \\ \hline
+        2.1 & $115.182 \pm 0.033$ & $3.5 \pm 0.60$ & $94.2 \pm 11.6$  & not achieved \\ \hline
+        3.1 & $115.215 \pm 0.033$ & $3.3 \pm 0.60$ & $89.8 \pm 11.6$  & not achieved \\ \hline
+        4.1 & $115.182 \pm 0.033$ & $4.5 \pm 0.60$ & $103.1 \pm 11.6$ & not achieved \\ \hline\hline
+        1.2 & $116.049 \pm 0.033$ & $6.7 \pm 1.28$ & $92.9 \pm 5.0$   & not achieved \\ \hline
+        2.2 & $116.016 \pm 0.033$ & $4.1 \pm 1.28$ & $89.3 \pm 5.0$   & not achieved \\ \hline
+        3.2 & $116.049 \pm 0.033$ & $6.4 \pm 1.28$ & $99.1 \pm 5.0$   & not achieved \\ \hline
+        4.2 & $116.049 \pm 0.033$ & $6.8 \pm 1.28$ & $99.6 \pm 5.0$   & not achieved \\ \hline\hline
+        1.3 & $116.850 \pm 0.033$ & $5.9 \pm 0.43$ & $104.3 \pm 3.2$  & not achieved \\ \hline
+        2.3 & $116.917 \pm 0.033$ & $6.2 \pm 0.43$ & $98.2 \pm 3.2$   & not achieved \\ \hline
+        3.3 & $116.883 \pm 0.033$ & $6.5 \pm 0.43$ & $99.9 \pm 3.2$   & not achieved \\ \hline
+        4.3 & $117.883 \pm 0.033$ & $5.5 \pm 0.43$ & $104.5 \pm 3.2$  & not achieved \\ \hline\hline
+        1.4 & $117.784 \pm 0.033$ & $5.5 \pm 0.55$ & $59.6 \pm 16.5$  & $1.001 \pm 0.047$ \\ \hline
+        2.4 & $117.784 \pm 0.033$ & $4.4 \pm 0.55$ & $60.9 \pm 16.5$  & $1.035 \pm 0.047$ \\ \hline
+        3.4 & $117.851 \pm 0.033$ & $4.9 \pm 0.55$ & $94.4 \pm 16.5$  & $0.934 \pm 0.047$ \\ \hline
+        4.4 & $117.784 \pm 0.033$ & $4.3 \pm 0.55$ & $64.1 \pm 16.5$  & $1.001 \pm 0.047$ \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{align}
+\tilde{\theta}_\text{max} &= \max_{t \ge t_d} |\tilde{\theta}(t)| \label{eq:dthmax} \\
+\Delta x_\text{max} &= \max_{t \ge t_d} |x(t) - \hat{x}_0| \label{eq:dxmax} \\
+t_r &= t_\text{enter} - t_d \label{eq:tr} \\
+u_{t_r} &= \sqrt{u_{t_\text{enter}}^2 + u_{t_d}^2} \label{eq:utr}
+\end{align}
+
+Example calculation for measurement 1, event 4:
+\begin{align*}
+t_r &= 118.785~\text{s} - 117.784~\text{s} = 1.001~\text{s} \\
+u_{t_r} &= \sqrt{(0.033~\text{s})^2 + (0.033~\text{s})^2} = 0.047~\text{s}
+\end{align*}
+
+Example standard deviation, maximum angular deviation of event 1, using Eq.~\eqref{eq:sd}:
+\begin{align*}
+\bar{\tilde{\theta}}_{\text{max},1} &= \frac{3.2 + 3.5 + 3.3 + 4.5}{4} = 3.63^\circ \\
+SD_{\theta,1} &= \sqrt{\frac{(3.2-3.63)^2 + (3.5-3.63)^2 + (3.3-3.63)^2 + (4.5-3.63)^2}{4-1}} \\
+SD_{\theta,1} &= \sqrt{\frac{1.0675}{3}} = 0.60^\circ
+\end{align*}
+
+\begin{table}[H]
+    \centering
+    \caption{Disturbance SP2: final values per event, given as mean $\pm$ sample standard deviation ($N = 4$).}
+    \label{tab:dist_results}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{Event} & $t_d$ (s) & $\tilde{\theta}_\text{max}$ ($^\circ$) & $\Delta x_\text{max}$ (px) & $t_r$ (s) \\
+        \hline
+        1 & $115.190 \pm 0.017$ & $3.63 \pm 0.60$ & $90.6 \pm 11.6$  & not achieved \\ \hline
+        2 & $116.041 \pm 0.017$ & $6.00 \pm 1.28$ & $95.2 \pm 5.0$   & not achieved \\ \hline
+        3 & $117.133 \pm 0.501$ & $6.03 \pm 0.43$ & $101.7 \pm 3.2$  & not achieved \\ \hline
+        4 & $117.801 \pm 0.034$ & $4.78 \pm 0.55$ & $69.8 \pm 16.5$  & $0.993 \pm 0.042$ \\ \hline
+    \end{tabular}
+\end{table}
 
 
 
+\section{Appendix}
+\noindent{\large\bfseries Calculations for stable point 1:}\par
+\begin{align*}
+&\textbf{1:} & T_1 &= 35.235-34.401 = 0.834~\text{s}, & T_2 &= 35.936-35.235 = 0.701~\text{s} \\
+& & \bar{T} &= \frac{0.834+0.701}{2} = 0.768~\text{s}, & f_d &= \frac{1}{0.768} = 1.303~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 1.303 = 8.187~\text{rad/s}, & & \\
+& & r_1 &= \frac{30.2}{141.7} = 0.213, & r_2 &= \frac{157.2}{30.2} = 5.205 \\
+& & \bar{r} &= \frac{0.213+5.205}{2} = 2.709 & & \\[6pt]
+&\textbf{2:} & T_1 &= 35.202-34.434 = 0.768~\text{s}, & T_2 &= 36.903-35.202 = 1.701~\text{s} \\
+& & \bar{T} &= \frac{0.768+1.701}{2} = 1.235~\text{s}, & f_d &= \frac{1}{1.235} = 0.810~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 0.810 = 5.090~\text{rad/s}, & & \\
+& & r_1 &= \frac{30.0}{144.7} = 0.207, & r_2 &= \frac{158.6}{30.0} = 5.287 \\
+& & \bar{r} &= \frac{0.207+5.287}{2} = 2.747 & & \\[6pt]
+&\textbf{3:} & T_1 &= 35.269-34.468 = 0.801~\text{s}, & T_2 &= 35.969-35.269 = 0.700~\text{s} \\
+& & \bar{T} &= \frac{0.801+0.700}{2} = 0.751~\text{s}, & f_d &= \frac{1}{0.751} = 1.332~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 1.332 = 8.372~\text{rad/s}, & & \\
+& & r_1 &= \frac{27.6}{141.4} = 0.195, & r_2 &= \frac{157.6}{27.6} = 5.710 \\
+& & \bar{r} &= \frac{0.195+5.710}{2} = 2.953 & & \\[6pt]
+&\textbf{4:} & T_1 &= 35.168-34.368 = 0.800~\text{s}, & T_2 &= 36.003-35.168 = 0.835~\text{s} \\
+& & \bar{T} &= \frac{0.800+0.835}{2} = 0.818~\text{s}, & f_d &= \frac{1}{0.818} = 1.223~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 1.223 = 7.686~\text{rad/s}, & & \\
+& & r_1 &= \frac{28.2}{142.3} = 0.198, & r_2 &= \frac{159.8}{28.2} = 5.667 \\
+& & \bar{r} &= \frac{0.198+5.667}{2} = 2.932 & &
+\end{align*}
 
+\begin{align*}
+\bar{T} &= \frac{0.768+1.235+0.751+0.818}{4} = 0.893~\text{s}, &
+SD_{T} &= \sqrt{\frac{0.1584}{4-1}} = 0.230~\text{s} \\
+\bar{f}_d &= \frac{1.303+0.810+1.332+1.223}{4} = 1.167~\text{Hz}, &
+SD_{f_d} &= \sqrt{\frac{0.1764}{4-1}} = 0.243~\text{Hz} \\
+\bar{\omega}_d &= \frac{8.187+5.090+8.372+7.686}{4} = 7.334~\text{rad/s}, &
+SD_{\omega_d} &= \sqrt{\frac{6.965}{4-1}} = 1.524~\text{rad/s} \\
+\bar{r} &= \frac{2.709+2.747+2.953+2.932}{4} = 2.835, &
+SD_{r} &= \sqrt{\frac{0.0469}{4-1}} = 0.125
+\end{align*}
+
+% ---------- Appendix ----------
+\noindent{\large\bfseries SP2 calculations:}\par
+
+\begin{align*}
+&\textbf{1:} & \theta_\text{range} &= 4.1-(-0.9) = 5.0^\circ, & \tilde{\theta}_\text{abs,max} &= 4.1^\circ, & x_\text{range} &= 1184-765.8 = 418.2~\text{px} \\
+&\textbf{2:} & \theta_\text{range} &= 2.3-(-3.8) = 6.1^\circ, & \tilde{\theta}_\text{abs,max} &= 3.8^\circ, & x_\text{range} &= 1181-759.0 = 422.0~\text{px} \\
+&\textbf{3:} & \theta_\text{range} &= 3.2-(-2.8) = 6.0^\circ, & \tilde{\theta}_\text{abs,max} &= 3.2^\circ, & x_\text{range} &= 1186-749.5 = 436.5~\text{px} \\
+&\textbf{4:} & \theta_\text{range} &= 4.9-(-2.6) = 7.5^\circ, & \tilde{\theta}_\text{abs,max} &= 4.9^\circ, & x_\text{range} &= 1183-755.5 = 427.5~\text{px}
+\end{align*}
+
+\begin{align*}
+\bar{\theta}_\text{range} &= \frac{5.0+6.1+6.0+7.5}{4} = 6.15^\circ, &
+SD_{\theta_\text{range}} &= \sqrt{\frac{3.17}{4-1}} = 1.03^\circ \\
+\bar{\tilde{\theta}}_\text{abs,max} &= \frac{4.1+3.8+3.2+4.9}{4} = 4.00^\circ, &
+SD_{\tilde{\theta}_\text{abs,max}} &= \sqrt{\frac{1.50}{4-1}} = 0.71^\circ \\
+\bar{x}_\text{range} &= \frac{418.2+422.0+436.5+427.5}{4} = 426.1~\text{px}, &
+SD_{x_\text{range}} &= \sqrt{\frac{189.33}{4-1}} = 7.9~\text{px}
+\end{align*}
+
+\noindent{\large\bfseries Calculations for disturbances around stable point 2:}\par
+\begin{align*}
+\bar{t}_{d,1} &= \frac{115.182+115.182+115.215+115.182}{4} = 115.190~\text{s}, &
+SD_{t_d,1} &= \sqrt{\frac{0.000817}{4-1}} = 0.017~\text{s} \\
+\bar{t}_{d,2} &= \frac{116.049+116.016+116.049+116.049}{4} = 116.041~\text{s}, &
+SD_{t_d,2} &= \sqrt{\frac{0.000817}{4-1}} = 0.017~\text{s} \\
+\bar{t}_{d,3} &= \frac{116.850+116.917+116.883+117.883}{4} = 117.133~\text{s}, &
+SD_{t_d,3} &= \sqrt{\frac{0.7517}{4-1}} = 0.501~\text{s} \\
+\bar{t}_{d,4} &= \frac{117.784+117.784+117.851+117.784}{4} = 117.801~\text{s}, &
+SD_{t_d,4} &= \sqrt{\frac{0.003367}{4-1}} = 0.034~\text{s}
+\end{align*}
+
+\begin{align*}
+\bar{\tilde{\theta}}_{\text{max},1} &= \frac{3.2+3.5+3.3+4.5}{4} = 3.63^\circ, &
+SD_{\theta,1} &= \sqrt{\frac{1.0675}{4-1}} = 0.60^\circ \\
+\bar{\tilde{\theta}}_{\text{max},2} &= \frac{6.7+4.1+6.4+6.8}{4} = 6.00^\circ, &
+SD_{\theta,2} &= \sqrt{\frac{4.9000}{4-1}} = 1.28^\circ \\
+\bar{\tilde{\theta}}_{\text{max},3} &= \frac{5.9+6.2+6.5+5.5}{4} = 6.03^\circ, &
+SD_{\theta,3} &= \sqrt{\frac{0.5475}{4-1}} = 0.43^\circ \\
+\bar{\tilde{\theta}}_{\text{max},4} &= \frac{5.5+4.4+4.9+4.3}{4} = 4.78^\circ, &
+SD_{\theta,4} &= \sqrt{\frac{0.9075}{4-1}} = 0.55^\circ
+\end{align*}
+
+\begin{align*}
+\Delta\bar{x}_{\text{max},1} &= \frac{75.3+94.2+89.8+103.1}{4} = 90.6~\text{px}, &
+SD_{x,1} &= \sqrt{\frac{403.94}{4-1}} = 11.6~\text{px} \\
+\Delta\bar{x}_{\text{max},2} &= \frac{92.9+89.3+99.1+99.6}{4} = 95.2~\text{px}, &
+SD_{x,2} &= \sqrt{\frac{74.67}{4-1}} = 5.0~\text{px} \\
+\Delta\bar{x}_{\text{max},3} &= \frac{104.3+98.2+99.9+104.5}{4} = 101.7~\text{px}, &
+SD_{x,3} &= \sqrt{\frac{30.09}{4-1}} = 3.2~\text{px} \\
+\Delta\bar{x}_{\text{max},4} &= \frac{59.6+60.9+94.4+64.1}{4} = 69.8~\text{px}, &
+SD_{x,4} &= \sqrt{\frac{820.89}{4-1}} = 16.5~\text{px}
+\end{align*}
+
+\begin{align*}
+&\textbf{1.4:} & t_r &= 118.785-117.784 = 1.001~\text{s}, &
+&\textbf{2.4:} & t_r &= 118.819-117.784 = 1.035~\text{s} \\
+&\textbf{3.4:} & t_r &= 118.785-117.851 = 0.934~\text{s}, &
+&\textbf{4.4:} & t_r &= 118.785-117.784 = 1.001~\text{s}
+\end{align*}
+
+\begin{align*}
+\bar{t}_r &= \frac{1.001+1.035+0.934+1.001}{4} = 0.993~\text{s}, &
+SD_{t_r} &= \sqrt{\frac{0.005373}{4-1}} = 0.042~\text{s}
+\end{align*}
 
 \end{document}
