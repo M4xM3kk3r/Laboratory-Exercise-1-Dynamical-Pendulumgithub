@@ -1,0 +1,77 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+\title{Laboratory Exercise 1: Dynamical Pendulum}
+\author{Magnus Støren Wedèn, Jon Magnus Vårheim, Birk Holm Broen}
+\date{September 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Laboratory exercise 1 will analyse a cart-pendulum system to study equilibrium, stability and feedback control. There are three sections to this lab, stable point 1 where the controller is not active, this causes the pendulum to hang downwards due to gravity, stable point 2 occurs when the controller is active attempting to force the tip of the pendulum stay upright and finally the situation where the controller is active and exposed to outside disturbance. 
+
+
+\section{method}
+
+
+{\Large General one-time measurements}
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Selected analysis intervals in the original video,
+    with timestamps and exported frame boundaries.}
+    \label{tab:intervals}
+    \begin{tabular}{@{}lccrr@{}}
+        \toprule
+        Analysis interval
+        & Start time
+        & End time
+        & \shortstack{Start\\frame}
+        & \shortstack{End\\frame} \\
+        \midrule
+        SP1: initial observation
+        & 00:00:08.041 & 00:00:11.812 & 241 & 354 \\
+
+        SP1: input/disturbance
+        & 00:00:12.980 & 00:00:15.452 & 389 & 463 \\
+
+        SP1: input/disturbance continued
+        & 00:00:20.287 & 00:00:23.790 & 608 & 713 \\
+
+        SP1: oscillation
+        & 00:00:33.188 & 00:00:38.885 & 995 & 1165 \\
+
+        SP2: controlled operation 1
+        & 00:00:53.020 & 00:01:09.937 & 1589 & 2096 \\
+
+        SP2: controlled operation 2
+        & 00:01:13.974 & 00:01:22.616 & 2217 & 2476 \\
+
+        SP2: disturbance sequence
+        & 00:01:54.015 & 00:02:01.197 & 3417 & 3632 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+\end{document}

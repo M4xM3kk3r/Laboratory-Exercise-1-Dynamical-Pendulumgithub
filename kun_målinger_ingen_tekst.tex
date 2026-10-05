@@ -1,0 +1,287 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+
+{\Large General one-time measurements}
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Selected analysis intervals in the original video,
+    with timestamps and exported frame boundaries.}
+    \label{tab:intervals}
+    \begin{tabular}{@{}lccrr@{}}
+        \toprule
+        Analysis interval
+        & Start time
+        & End time
+        & \shortstack{Start\\frame}
+        & \shortstack{End\\frame} \\
+        \midrule
+        SP1: initial observation
+        & 00:00:08.041 & 00:00:11.812 & 241 & 354 \\
+
+        SP1: input/disturbance
+        & 00:00:12.980 & 00:00:15.452 & 389 & 463 \\
+
+        SP1: input/disturbance continued
+        & 00:00:20.287 & 00:00:23.790 & 608 & 713 \\
+
+        SP1: oscillation
+        & 00:00:33.188 & 00:00:38.885 & 995 & 1165 \\
+
+        SP2: controlled operation 1
+        & 00:00:53.020 & 00:01:09.937 & 1589 & 2096 \\
+
+        SP2: controlled operation 2
+        & 00:01:13.974 & 00:01:22.616 & 2217 & 2476 \\
+
+        SP2: disturbance sequence
+        & 00:01:54.015 & 00:02:01.197 & 3417 & 3632 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Record video frame rate $f_\text{video}$ and frame duration $\Delta t_\text{frame} = 1/f_\text{video}$\newline
+
+\begin{gather}
+t = 00{:}00{:}08.041 = 8.041~\text{s} \nonumber \\
+f_\text{video} = \frac{N}{t} \label{eq:fvideo} \\
+f_\text{video} = \frac{241}{8.041~\text{s}} \approx 29.97~\text{frames/s} \nonumber \\
+\Delta t_\text{frame} = \frac{1}{f_\text{video}} \label{eq:dtframe} \\
+\Delta t_\text{frame} = \frac{1}{29.97~\text{frames/s}} \approx 0.0334~\text{s} \nonumber
+\end{gather}
+
+Record how the vertical reference line was selected\newline
+
+Record how the pendulum centreline was selected\newline
+
+\begin{table}[H]
+    \centering
+    \caption{SP1: all four measurements}
+    \label{tab:sp1_all}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \multicolumn{4}{c|}{\textbf{Measurement}} \\
+        \cline{3-6}
+         & & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} \\
+        \hline
+        Release time (s)                        & $t_0$              & 33.000 & 32.933 & 32.799 & 33.066 \\ \hline
+        Initial angular displacement ($^\circ$) & $\tilde{\theta}_0$ & 170.1  & 171.4  & 172.0  & 169.2  \\ \hline
+        First selected peak ($^\circ$)          & $\tilde{\theta}_1$ & 141.7  & 144.7  & 141.4  & 142.3  \\ \hline
+        Second selected peak ($^\circ$)         & $\tilde{\theta}_2$ & 30.2   & 30.0   & 27.6   & 28.2   \\ \hline
+        Third selected peak ($^\circ$)          & $\tilde{\theta}_3$ & 157.2  & 158.6  & 157.6  & 159.8  \\ \hline
+        Time of first selected peak (s)         & $t_1$              & 34.401 & 34.434 & 34.468 & 34.368 \\ \hline
+        Time of second selected peak (s)        & $t_2$              & 35.235 & 35.202 & 35.269 & 35.168 \\ \hline
+        Time of third selected peak (s)         & $t_3$              & 35.936 & 36.903 & 35.969 & 36.003 \\ \hline
+        Settling time (s)                       & $t_s$              & not visible & not visible & not visible  &    not visible    \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{align}
+T_i &= t_{i+1} - t_i \label{eq:Ti} \\
+\bar{T} &= \frac{1}{n}\sum_{i=1}^{n} T_i \label{eq:Tmean} \\
+f_d &= \frac{1}{\bar{T}} \label{eq:fd} \\
+\omega_d &= 2\pi f_d \label{eq:wd} \\
+r_i &= \frac{|\tilde{\theta}_{i+1}|}{|\tilde{\theta}_i|} \label{eq:ri} \\
+\bar{r} &= \frac{1}{n_r}\sum_{i=1}^{n_r} r_i \label{eq:rmean}
+\end{align}
+
+
+
+Example calculation for measurement 1:
+\begin{align*}
+T_1 &= 35.235 - 34.401 = 0.834~\text{s} \\
+T_2 &= 35.936 - 35.235 = 0.701~\text{s} \\
+\bar{T} &= \frac{0.834 + 0.701}{2} = 0.768~\text{s} \\
+f_d &= \frac{1}{0.768~\text{s}} = 1.303~\text{Hz} \\
+\omega_d &= 2\pi \cdot 1.303~\text{Hz} = 8.187~\text{rad/s} \\
+r_1 &= \frac{30.2}{141.7} = 0.213 \\
+r_2 &= \frac{157.2}{30.2} = 5.205 \\
+\bar{r} &= \frac{0.213 + 5.205}{2} = 2.709
+\end{align*}
+
+Example standard deviation, mean period over the four measurements:
+\begin{align*}
+\bar{T} &= \frac{0.768 + 1.235 + 0.751 + 0.818}{4} = 0.893~\text{s} \\
+SD_{T} &= \sqrt{\frac{(0.768-0.893)^2 + (1.235-0.893)^2 + (0.751-0.893)^2 + (0.818-0.893)^2}{4-1}} \\
+SD_{T} &= \sqrt{\frac{0.1584}{3}} = 0.230~\text{s}
+\end{align*}
+
+\begin{table}[H]
+    \centering
+    \caption{SP1: final values, given as mean $\pm$ sample standard deviation ($N = 4$).}
+    \label{tab:sp1_results}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \textbf{Value} \\
+        \hline
+        Mean period                    & $\bar{T}$  & $0.893 \pm 0.230$~s \\ \hline
+        Observed oscillation frequency & $f_d$      & $1.167 \pm 0.243$~Hz \\ \hline
+        Damped angular frequency       & $\omega_d$ & $7.334 \pm 1.524$~rad/s \\ \hline
+        Mean amplitude ratio           & $\bar{r}$  & $2.835 \pm 0.125$ \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{align*}
+&\textbf{1:} & T_1 &= 35.235-34.401 = 0.834~\text{s}, & T_2 &= 35.936-35.235 = 0.701~\text{s} \\
+& & \bar{T} &= \frac{0.834+0.701}{2} = 0.768~\text{s}, & f_d &= \frac{1}{0.768} = 1.303~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 1.303 = 8.187~\text{rad/s}, & & \\
+& & r_1 &= \frac{30.2}{141.7} = 0.213, & r_2 &= \frac{157.2}{30.2} = 5.205 \\
+& & \bar{r} &= \frac{0.213+5.205}{2} = 2.709 & & \\[6pt]
+&\textbf{2:} & T_1 &= 35.202-34.434 = 0.768~\text{s}, & T_2 &= 36.903-35.202 = 1.701~\text{s} \\
+& & \bar{T} &= \frac{0.768+1.701}{2} = 1.235~\text{s}, & f_d &= \frac{1}{1.235} = 0.810~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 0.810 = 5.090~\text{rad/s}, & & \\
+& & r_1 &= \frac{30.0}{144.7} = 0.207, & r_2 &= \frac{158.6}{30.0} = 5.287 \\
+& & \bar{r} &= \frac{0.207+5.287}{2} = 2.747 & & \\[6pt]
+&\textbf{3:} & T_1 &= 35.269-34.468 = 0.801~\text{s}, & T_2 &= 35.969-35.269 = 0.700~\text{s} \\
+& & \bar{T} &= \frac{0.801+0.700}{2} = 0.751~\text{s}, & f_d &= \frac{1}{0.751} = 1.332~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 1.332 = 8.372~\text{rad/s}, & & \\
+& & r_1 &= \frac{27.6}{141.4} = 0.195, & r_2 &= \frac{157.6}{27.6} = 5.710 \\
+& & \bar{r} &= \frac{0.195+5.710}{2} = 2.953 & & \\[6pt]
+&\textbf{4:} & T_1 &= 35.168-34.368 = 0.800~\text{s}, & T_2 &= 36.003-35.168 = 0.835~\text{s} \\
+& & \bar{T} &= \frac{0.800+0.835}{2} = 0.818~\text{s}, & f_d &= \frac{1}{0.818} = 1.223~\text{Hz} \\
+& & \omega_d &= 2\pi \cdot 1.223 = 7.686~\text{rad/s}, & & \\
+& & r_1 &= \frac{28.2}{142.3} = 0.198, & r_2 &= \frac{159.8}{28.2} = 5.667 \\
+& & \bar{r} &= \frac{0.198+5.667}{2} = 2.932 & &
+\end{align*}
+
+\begin{align*}
+\bar{T} &= \frac{0.768+1.235+0.751+0.818}{4} = 0.893~\text{s}, &
+SD_{T} &= \sqrt{\frac{0.1584}{4-1}} = 0.230~\text{s} \\
+\bar{f}_d &= \frac{1.303+0.810+1.332+1.223}{4} = 1.167~\text{Hz}, &
+SD_{f_d} &= \sqrt{\frac{0.1764}{4-1}} = 0.243~\text{Hz} \\
+\bar{\omega}_d &= \frac{8.187+5.090+8.372+7.686}{4} = 7.334~\text{rad/s}, &
+SD_{\omega_d} &= \sqrt{\frac{6.965}{4-1}} = 1.524~\text{rad/s} \\
+\bar{r} &= \frac{2.709+2.747+2.953+2.932}{4} = 2.835, &
+SD_{r} &= \sqrt{\frac{0.0469}{4-1}} = 0.125
+\end{align*}
+{\Large Uncertainty should be added in-line in the table, difference between in frame and between frames}
+For each event (SP1 only), also record:
+\begin{enumerate}
+    \item the release time, $t_0$;
+    \item the initial angular displacement, $\tilde{\theta}_0$;
+    \item the direction of the initial motion;
+    \item at least three peak angular displacements in the same direction;
+    \item the corresponding peak timestamps;
+    \item the number of complete oscillations in the selected interval;
+    \item any visible motion of the cart;
+    \item the settling time, if settling is visible;
+    \item the final observed pendulum position.
+\end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \caption{SP2: all four measurements}
+    \label{tab:sp2_all}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Quantity} & \textbf{Symbol} & \multicolumn{4}{c|}{\textbf{Measurement}} & \textbf{Mean} & \textbf{s} \\
+        \cline{3-6}
+         & & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & & \\
+        \hline
+        Beginning of controlled operation (s) & $t_\text{on}$               & 53.020 & 53.053 & 52.986 & 52.953 & 53.003 & 0.043 \\ \hline
+        Maximum positive deviation ($^\circ$) & $\tilde{\theta}_\text{max}$ & 4.1    & 2.3    & 3.2    & 4.9    & 3.6    & 1.1   \\ \hline
+        Maximum negative deviation ($^\circ$) & $\tilde{\theta}_\text{min}$ & $-0.9$ & $-3.8$ & $-2.8$ & $-2.6$ & $-2.5$ & 1.2   \\ \hline
+        Maximum cart position (px)            & $x_\text{max}$              & 1184   & 1181   & 1186   & 1183   & 1183.5 & 2.1   \\ \hline
+        Minimum cart position (px)            & $x_\text{min}$              & 765.8  & 759.0  & 749.5  & 755.5  & 757.5  & 6.8   \\ \hline
+        Stabilisation time (s)                & $t_\text{stab}$             & 0.334  & 2.369  & 3.170  & 1.501  & 1.84   & 1.22  \\ \hline
+    \end{tabular}
+\end{table}
+
+
+
+Record $t_\text{enter}$ for each event (start of the first interval of at least 1 s within $|\tilde{\theta}| \le 2^\circ$)\newline
+
+\newcommand{\uth}{\,?\,}  % angle reading uncertainty (deg)
+\newcommand{\ux}{\,?\,}   % cart position uncertainty (px)
+
+\newcommand{\uth}{\,?\,}  % angle reading uncertainty (deg)
+\newcommand{\ux}{\,?\,}   % cart position uncertainty (px)
+
+\begin{table}[H]
+    \centering
+    \caption{Disturbance SP2: all four measurements. No.\ = measurement.event.}
+    \label{tab:sp2_disturbance}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        No.
+        & $t_d \pm u_{t_d}$ (s)
+        & $\tilde{\theta}_\text{max} \pm u_\theta$ ($^\circ$)
+        & $\Delta x_\text{max} \pm u_x$ (px)
+        & $t_r \pm u_{t_r}$ (s) \\
+        \hline
+        1.1 & $115.182 \pm 0.033$ & $3.2 \pm \uth$ & $75.3 \pm \ux$  & not achieved \\ \hline
+        2.1 & $115.182 \pm 0.033$ & $3.5 \pm \uth$ & $94.2 \pm \ux$  & not achieved \\ \hline
+        3.1 & $115.215 \pm 0.033$ & $3.3 \pm \uth$ & $89.8 \pm \ux$  & not achieved \\ \hline
+        4.1 & $115.182 \pm 0.033$ & $4.5 \pm \uth$ & $103.1 \pm \ux$ & not achieved \\ \hline\hline
+        1.2 & $116.049 \pm 0.033$ & $6.7 \pm \uth$ & $92.9 \pm \ux$  & not achieved \\ \hline
+        2.2 & $116.016 \pm 0.033$ & $4.1 \pm \uth$ & $89.3 \pm \ux$  & not achieved \\ \hline
+        3.2 & $116.049 \pm 0.033$ & $6.4 \pm \uth$ & $99.1 \pm \ux$  & not achieved \\ \hline
+        4.2 & $116.049 \pm 0.033$ & $6.8 \pm \uth$ & $99.6 \pm \ux$  & not achieved \\ \hline\hline
+        1.3 & $116.850 \pm 0.033$ & $5.9 \pm \uth$ & $104.3 \pm \ux$ & not achieved \\ \hline
+        2.3 & $116.917 \pm 0.033$ & $6.2 \pm \uth$ & $98.2 \pm \ux$  & not achieved \\ \hline
+        3.3 & $116.883 \pm 0.033$ & $6.5 \pm \uth$ & $99.9 \pm \ux$  & not achieved \\ \hline
+        4.3 & $117.883 \pm 0.033$ & $5.5 \pm \uth$ & $104.5 \pm \ux$ & not achieved \\ \hline\hline
+        1.4 & $117.784 \pm 0.033$ & $5.5 \pm \uth$ & $59.6 \pm \ux$  & $1.001 \pm 0.047$ \\ \hline
+        2.4 & $117.784 \pm 0.033$ & $4.4 \pm \uth$ & $60.9 \pm \ux$  & $1.035 \pm 0.047$ \\ \hline
+        3.4 & $117.851 \pm 0.033$ & $4.9 \pm \uth$ & $94.4 \pm \ux$  & $0.934 \pm 0.047$ \\ \hline
+        4.4 & $117.784 \pm 0.033$ & $4.3 \pm \uth$ & $64.1 \pm \ux$  & $1.001 \pm 0.047$ \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{align}
+\bar{q} &= \frac{1}{n}\sum_{i=1}^{n} q_i \label{eq:mean} \\
+u_q = s_q &= \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}\left(q_i-\bar{q}\right)^2} \label{eq:std}
+\end{align}
+
+\begin{align*}
+\bar{\theta}_{\max,1} &= \frac{3.2+3.5+3.3+4.5}{4} = 3.63^\circ, &
+u_{\theta,1} &= \sqrt{\frac{1.0675}{3}} = 0.60^\circ \\
+\bar{\theta}_{\max,2} &= \frac{6.7+4.1+6.4+6.8}{4} = 6.00^\circ, &
+u_{\theta,2} &= \sqrt{\frac{4.9000}{3}} = 1.28^\circ \\
+\bar{\theta}_{\max,3} &= \frac{5.9+6.2+6.5+5.5}{4} = 6.03^\circ, &
+u_{\theta,3} &= \sqrt{\frac{0.5475}{3}} = 0.43^\circ \\
+\bar{\theta}_{\max,4} &= \frac{5.5+4.4+4.9+4.3}{4} = 4.78^\circ, &
+u_{\theta,4} &= \sqrt{\frac{0.9075}{3}} = 0.55^\circ
+\end{align*}
+
+\begin{align*}
+\Delta\bar{x}_{\max,1} &= \frac{75.3+94.2+89.8+103.1}{4} = 90.6~\text{px}, &
+u_{x,1} &= \sqrt{\frac{403.94}{3}} = 11.6~\text{px} \\
+\Delta\bar{x}_{\max,2} &= \frac{92.9+89.3+99.1+99.6}{4} = 95.2~\text{px}, &
+u_{x,2} &= \sqrt{\frac{74.67}{3}} = 5.0~\text{px} \\
+\Delta\bar{x}_{\max,3} &= \frac{104.3+98.2+99.9+104.5}{4} = 101.7~\text{px}, &
+u_{x,3} &= \sqrt{\frac{30.09}{3}} = 3.2~\text{px} \\
+\Delta\bar{x}_{\max,4} &= \frac{59.6+60.9+94.4+64.1}{4} = 69.8~\text{px}, &
+u_{x,4} &= \sqrt{\frac{820.89}{3}} = 16.5~\text{px}
+\end{align*}
+
+For each event (only SP2 with disturbance), also record:
+\begin{enumerate}
+    \item the earliest visible evidence of the disturbance;
+    \item whether the event is primarily a motion disturbance or a system disturbance;
+    \item the part of the system that appears to respond first;
+    \item the initial directions of the pendulum and cart motion;
+    \item whether corrective cart motion remains visible after the disturbance;
+    \item whether the pendulum leaves the $\pm 20^\circ$ controller activation region;
+    \item whether the pendulum returns to SP2;
+    \item the final state of the pendulum and cart.
+\end{enumerate}
+
+
+\end{document}

@@ -1,0 +1,479 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=25mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{booktabs,tabularx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+% DRAFT MODE: change to \draftfalse to hide guidance and figure prompts.
+% This does not remove missing content or unfinished tables: fill those in first.
+\newif\ifdraft
+\drafttrue
+\usepackage{etoolbox}
+\usepackage{siunitx}
+\DeclareRobustCommand{\guide}[1]{\ifdraft\par\smallskip\small\itshape Draft guidance: #1\par\smallskip\fi}
+\newcommand{\manual}[1]{\cite[printed pp.~#1]{labmanual}}
+\newcommand{\placeholder}[1]{\textit{[#1]}}
+\newcommand{\figureplaceholder}[3]{%
+  \begin{figure}[htbp]
+    \centering
+    \fbox{\parbox[c][38mm][c]{0.88\linewidth}{\centering
+      \ifdraft #1\else Figure to be inserted\fi}}
+    \caption{#2}\label{#3}
+  \end{figure}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\Large Oslo Metropolitan University\par}
+\vspace{12mm}
+{\large Dynamical Systems ELI2300\par}
+\vspace{18mm}
+{\huge\bfseries Laboratory Exercise 1\par}
+\vspace{5mm}
+{\LARGE Dynamical Pendulum\par}
+\vspace{12mm}
+{\large Natural oscillation, upright stabilisation, and disturbance rejection\par}
+\vfill
+\begin{tabular}{ll}
+\toprule
+Full name & Student number \\
+\midrule
+\placeholder{Name} & \placeholder{Student number} \\
+\placeholder{Name} & \placeholder{Student number} \\
+\placeholder{Name} & \placeholder{Student number} \\
+\bottomrule
+\end{tabular}
+\vspace{12mm}
+
+Group: \placeholder{Group identifier, if applicable}\par
+Date: \placeholder{Submission date}\par
+\guide{Full names and student numbers are required by the submission instructions, printed p.~21. The subtitle, group field, and date field are template choices.}
+\end{titlepage}
+
+% A contents page is a template choice, not a stated lab-manual requirement.
+\tableofcontents
+\newpage
+
+\section{Introduction and theory}
+\label{sec:introduction}
+\guide{Required report section: \manual{21}. The subsection grouping and drafting prompts throughout this template are assistant suggestions. Consult RWM before finalising the format; its contents are not in the lab manual. No experimental results have been supplied.}
+
+\subsection{Purpose and scope}
+\guide{State the purpose in your own words: compare natural motion around the downward equilibrium (SP1), feedback-controlled motion around the upright equilibrium (SP2), and responses to disturbances. Explain the quantities used to assess stability, transient behaviour, and disturbance rejection. Source: Purpose and Objectives, \manual{1--2}.}
+
+\subsection{Equilibria and natural motion}
+\guide{Explain natural stability at SP1 and natural instability at SP2. Introduce inertia, restoring action, and energy dissipation; connect these concepts to the later observations. Sources: Introduction and SP1 theory, \manual{2, 6--7}.}
+
+\subsection{Controlled upright dynamics}
+The simplified nonlinear pendulum equation near the upright position is
+\begin{equation}
+ J_p\ddot{\theta}+b_p\dot{\theta}-mgl\sin\theta
+ =-ml\ddot{x}\cos\theta.
+ \label{eq:nonlinear}
+\end{equation}
+Here, $x$ is cart displacement, $\theta$ is the angle relative to the specified equilibrium, $J_p$ is pendulum inertia about the pivot, $b_p$ is rotational damping, $m$ is pendulum mass, and $l$ is the pivot-to-centre-of-mass distance. Equation~\eqref{eq:nonlinear} and the definitions follow the manual. \manual{4--5, 7, 15}
+
+The pendulum-angle controller is
+\begin{equation}
+ u_\theta(t)=K_{p,\theta}e_\theta(t)
+ +K_{d,\theta}\frac{de_\theta(t)}{dt},
+ \qquad e_\theta(t)=\theta_{\mathrm{ref}}-\theta(t),
+ \quad \theta_{\mathrm{ref}}=0.
+ \label{eq:pd}
+\end{equation}
+The cart-position controller is
+\begin{equation}
+ u_x(t)=K_{p,x}e_x(t)+K_{i,x}\int_0^t e_x(\tau)\,d\tau
+ +K_{d,x}\frac{de_x(t)}{dt},
+ \qquad e_x(t)=x_{\mathrm{ref}}(t)-x(t).
+ \label{eq:pid}
+\end{equation}
+Equations~\eqref{eq:pd} and \eqref{eq:pid} are given in the controller descriptions. \manual{7--8}
+\guide{Explain the proportional and derivative terms, slower cart regulation, and dead-zone compensation. Preserve the gain signs. The manual relates the negative proportional gain to coordinate and motor conventions; do not reinterpret it without supporting information. The controller is active only within $|\theta|\leq20^\circ$ and there is no automatic swing-up. Sources: \manual{7--8}.}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Parameters supplied by the laboratory manual. Mechanical parameters are approximate; numerical parameter uncertainties are not in manual.}
+\label{tab:parameters}
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Quantity & Value & Printed page \\
+\midrule
+Cart mass & $M=1.12\ \mathrm{kg}$ & 9 \\
+Pendulum mass & $m\approx0.120\ \mathrm{kg}$ & 9 \\
+Pivot inertia & $J_p\approx0.0139231\ \mathrm{kg\,m^2}$ & 9 \\
+Rotational damping & $b_p\approx1.07443\times10^{-4}\ \mathrm{N\,m\,s/rad}$ & 9 \\
+Gravity & $g=9.81\ \mathrm{m/s^2}$ & 9 \\
+Sampling & $T_s=0.01\ \mathrm{s}$; $f_s=100\ \mathrm{Hz}$ & 9 \\
+Pendulum gains & $K_{p,\theta}=-6.2$, $K_{i,\theta}=0$, $K_{d,\theta}=0.3$ & 9 \\
+Cart gains & $K_{p,x}=-0.1$, $K_{i,x}=0.018$, $K_{d,x}=0.7$ & 9 \\
+Dead-zone values & $V_{\mathrm{dz},+}=0.16\ \mathrm{V}$; $V_{\mathrm{dz},-}=0.14\ \mathrm{V}$ & 9 \\
+Compensation & $N_+=0.032$; $N_-=0.028$ & 9 \\
+Activation range & $|\theta|_{\mathrm{enable}}\leq20^\circ$; $|\theta|_{\mathrm{enable}}\leq0.349\ \mathrm{rad}$ & 9 \\
+Centre-of-mass distance & $l$: numerical value not in manual & 5, 9 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\guide{Refer to Table~\ref{tab:parameters} in the finished prose. Sources: \manual{8--9}. Cite the pendulum thesis as the principal technical reference once consulted \cite{pendulumthesis}. Gain units and the numerical cart reference are not in manual.}
+
+\section{Method}
+\label{sec:method}
+\subsection{Video and available data}
+\guide{Filename for analysed content: \texttt{"ELI2300\_Lab1Video"}, duration: \texttt{2:03.135} s, frame rate \texttt{29.97003} fps, playback tools: LosslessCut, Tracker.}
+%and any supplied encoder/controller data%
+%Paste this in place of the existing **“Video and available data”** subsection and interval table. It uses the packages and `\manual{}` command already in your template. **Assumption:** `1:55.215–248` means `00:01:55.215–00:01:55.248`. The five distinct event windows are retained below. The wording uses **Stable Point** and separates visible behaviour from possible explanations. Your approximate SP1 endpoint, **38.5 s**, differs from the exported boundary, **38.885 s**; the table uses the export. It also includes your second SP2 interval.
+
+```latex
+\subsection{Video overview and selected analysis intervals}
+\label{sec:video-overview}
+
+An initial qualitative review of the video was used to identify
+the main phases of the experiment before taking detailed
+measurements. The review focused on the overall motion of the
+pendulum and cart, changes in operating condition, and possible
+disturbance events. This follows the observation procedure
+described in the laboratory manual. \manual{3--4}
+
+The recording was divided into intervals covering natural motion
+around Stable Point 1 (SP1), controlled operation around Stable
+Point 2 (SP2), and disturbances during upright operation.
+SP1 denotes the naturally stable downward equilibrium, whereas
+SP2 denotes the upright equilibrium maintained by feedback
+control. \manual{2, 6--8}
+
+For the SP1 intervals, the analysis considers displacement and
+release of the pendulum, its subsequent oscillation about the
+downward equilibrium, and any visible cart motion.
+For the SP2 intervals, the analysis considers angular deviations
+from upright and the associated corrective cart movements.
+The disturbance interval is examined more closely to identify
+changes in motion, the sequence of visible responses, and the
+subsequent recovery or loss of stabilisation.
+\manual{10--11, 14--20}
+
+Table~\ref{tab:intervals} lists the selected analysis intervals.
+Timestamps refer to the original recording and use the format
+hh:mm:ss.sss. The timestamps and frame boundaries were obtained
+from the segment exports and matched by segment name.
+The interval descriptions identify the intended focus of the
+analysis; they do not establish the cause of an observed event.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Selected analysis intervals in the original video,
+    with timestamps and exported frame boundaries.}
+    \label{tab:intervals}
+    \begin{tabular}{@{}lccrr@{}}
+        \toprule
+        Analysis interval
+        & Start time
+        & End time
+        & \shortstack{Start\\frame}
+        & \shortstack{End\\frame} \\
+        \midrule
+        SP1: initial observation
+        & 00:00:08.041 & 00:00:11.812 & 241 & 354 \\
+
+        SP1: input/disturbance
+        & 00:00:12.980 & 00:00:15.452 & 389 & 463 \\
+
+        SP1: input/disturbance continued
+        & 00:00:20.287 & 00:00:23.790 & 608 & 713 \\
+
+        SP1: oscillation
+        & 00:00:33.188 & 00:00:38.885 & 995 & 1165 \\
+
+        SP2: controlled operation 1
+        & 00:00:53.020 & 00:01:09.937 & 1589 & 2096 \\
+
+        SP2: controlled operation 2
+        & 00:01:13.974 & 00:01:22.616 & 2217 & 2476 \\
+
+        SP2: disturbance sequence
+        & 00:01:54.015 & 00:02:01.197 & 3417 & 3632 \\
+        \bottomrule
+    \end{tabular}
+
+    \smallskip
+    \begin{minipage}{\linewidth}
+        \footnotesize
+        \textit{Source:} Timestamp and frame segment exports
+        for the laboratory video.
+        \textit{Note:} The exports do not specify whether
+        frame numbering begins at zero or one, or whether
+        the end frame is included. Frame values are therefore
+        reported as exported boundary indices.
+    \end{minipage}
+\end{table}
+
+\subsubsection{Candidate disturbance-event windows}
+\label{sec:disturbance-windows}
+
+Within the selected disturbance sequence, five candidate
+event windows were marked for closer inspection, as listed
+in Table~\ref{tab:disturbance-windows}.
+These windows guide the frame-by-frame analysis.
+They are preliminary event locations, rather than confirmed
+disturbance durations or onset-time uncertainty intervals.
+
+For each candidate event, direct observations are recorded
+before a disturbance mechanism is proposed. The analysis
+considers which component responds first, whether corrective
+cart motion remains visible, and whether the pendulum returns
+to upright operation. Where the evidence does not support a
+reliable explanation, the disturbance is classified as unknown.
+\manual{3--4, 17--20}
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Preliminary disturbance-event windows in the
+    original video. Timestamps use hh:mm:ss.sss.}
+    \label{tab:disturbance-windows}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Event & Point of contact & Point of release \\
+        \midrule
+        A & 00:01:55.215 & 00:01:55.248 \\
+        B & 00:01:56.083 & 00:01:56.116 \\
+        C & 00:01:56.850 & 00:01:56.950 \\
+        D & 00:01:57.784 & 00:01:57.884 \\
+        E & 00:02:00.354 & 00:02:00.454 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+```
+
+\begin{table}[htbp]
+\centering
+\caption{Selected analysis intervals.}
+\label{tab:intervals2}
+\begin{tabularx}{\linewidth}{@{}lccX@{}}
+\toprule
+Observation & Start (s) & End (s) & Selection rationale \\
+\midrule
+SP1 natural motion & --- & --- & \placeholder{Rationale} \\
+SP2 controlled operation & --- & --- & \placeholder{Rationale} \\
+Disturbance \placeholder{ID} & --- & --- & \placeholder{Rationale} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\guide{Duplicate the disturbance row for every actual event. TABLE III in the manual is an example, not evidence that there are exactly four events. Define each event's analysis endpoint so a later event does not contaminate its peak response. The endpoint convention is an assistant suggestion; fixed endpoints are not in manual. Sources: \manual{17--18}.}
+
+\subsection{References, calibration, and measurement uncertainty}
+\guide{Describe the fixed vertical reference, pendulum centreline, positive directions, and timing method. Explain perspective, image resolution, and motion blur. Use $\Delta t_{\mathrm{frame}}=1/f_{\mathrm{video}}$ as the basis for timestamp uncertainty, increasing uncertainty when an event is unclear. Sources: \manual{9--11}.}
+\guide{State any valid distance calibration. Verbatim restriction: ``Do not convert the displacement to metres unless a valid spatial calibration can be established from a known dimension in the video. This applies to all distance measurements in this lab.'' Without calibration use pixels or a fraction of visible rail length. Source: \manual{14}.}
+\guide{The controller's $100\ \mathrm{Hz}$ rate is not the video frame rate. Use encoder resolution only if encoder data are provided. The manual gives $N_\theta=2048\ \mathrm{counts/revolution}$, $\Delta\theta=0.1758^\circ/\mathrm{count}$ or approximately $0.00307\ \mathrm{rad/count}$; $C_x=10760\ \mathrm{counts/m}$ and $\Delta x\approx9.29\times10^{-5}\ \mathrm{m/count}\approx0.093\ \mathrm{mm/count}$. Sources: \manual{9--10}.}
+
+\subsection{Repeated measurements and data processing}
+\guide{Use ``three to five separate trials'' or, if unavailable, ``three to five independent measurements of the same video segment''. Explain who measured each segment and how repeated readings were made independently. Report means and sample standard deviations, or an appropriate observed range; propagate uncertainty into final results. Distinguish repeated readings of one event from separate physical trials. Sources: \manual{10, 22}; this final distinction is an assistant reporting suggestion.}
+\guide{Define what each reported $\pm$ value represents. Give one worked example of each key calculation in the main text and place complete calculations in Appendix~\ref{app:calculations}. Sources: \manual{13, 21--22}. The exact propagation method is not in manual; document and cite any supplemental method used.}
+
+\subsection{Definitions of settling, stabilisation, and recovery}
+\guide{SP1: state and justify your chosen tolerance band, then use $t_s=t_{\mathrm{settled}}-t_0$; report $t_s=\text{not observed}$ if settling is not visible. A numerical SP1 band and hold duration are not in manual. Source: \manual{13}.}
+\guide{SP2: define $t_{\mathrm{on}}$ as the first visible corrective cart movement after entering the activation region. Stabilisation requires $|\tilde\theta(t)|\leq2^\circ$ for at least $1\ \mathrm{s}$, timed from $t_{\mathrm{on}}$. Sources: \manual{14, 16}.}
+\guide{Disturbances: use the pre-disturbance mean angle as the local reference and mean cart position as the displacement reference. Recovery requires $|\tilde\theta(t)|\leq2^\circ$ for $T_{\mathrm{hold}}=1\ \mathrm{s}$, with $t_r=t_{\mathrm{enter}}-t_d$. Sources: \manual{18--19}.}
+\guide{Unresolved wording: p.~8 requires ``unconfirmed'' if less than one second remains after band entry; p.~19 specifies $t_r=\text{not achieved}$ if the criterion is not satisfied during the recording. State how truncated recordings are reported rather than silently treating them as failed recovery. The Part 3 band is relative to its pre-disturbance mean, unlike Part 2's upright-zero reference. Sources: \manual{8, 14, 18--19}.}
+
+\section{Results and analysis}
+\label{sec:results}
+\guide{Present processed data here, including units and uncertainty. Verbatim: ``Do not present raw data in the main Results section.'' Reference every table, figure, and equation in the prose. Sources: \manual{21--22}. The plots and table layouts below are assistant suggestions; an exact required plot list is not in manual.}
+
+\subsection{Natural motion around SP1}
+\guide{Report the observed motion, initial direction, cart motion, and final position. Present the periods, mean period, observed frequency $f_d$, angular frequency $\omega_d$, successive amplitude ratios and their mean, and settling time when visible. Compare positive and negative peaks as needed for the symmetry discussion. Sources: \manual{11--13}.}
+\begin{table}[htbp]
+\centering
+\caption{Processed natural-motion results. Specify the uncertainty convention in the text.}
+\label{tab:sp1results}
+\begin{tabularx}{\linewidth}{@{}lclX@{}}
+\toprule
+Quantity & Estimate $\pm$ uncertainty & Unit & Comment \\
+\midrule
+Mean period $\bar T$ & --- & s & --- \\
+Observed frequency $f_d$ & --- & Hz & --- \\
+Angular frequency $\omega_d$ & --- & rad/s & --- \\
+Mean amplitude ratio $\bar r$ & --- & dimensionless & --- \\
+Settling time $t_s$ & --- & s & \placeholder{Or not observed} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\figureplaceholder{Insert angle versus time with identified peaks, uncertainty information, and the chosen SP1 reference.}{Natural response around SP1.}{fig:sp1}
+\guide{Show one example of the period and amplitude-ratio calculations using actual data. Equations and same-direction peak requirement: \manual{11--13}. Frequency conversion formulas, if added, are supplemental standard theory and should be identified or cited accordingly.}
+
+\subsection{Controlled operation around SP2}
+\subsubsection{Observed operating range and stabilisation}
+\guide{Present the first cart-correction direction, angle extrema, cart extrema, remaining vibrations, angular range, maximum absolute angle deviation, cart-position range, mean angle, and stabilisation time. Sources: \manual{14--16}.}
+\begin{table}[htbp]
+\centering
+\caption{Processed controlled-operation results. Replace the cart unit with the actual calibrated unit, pixels, or rail fraction.}
+\label{tab:sp2results}
+\begin{tabularx}{\linewidth}{@{}lclX@{}}
+\toprule
+Quantity & Estimate $\pm$ uncertainty & Unit & Comment \\
+\midrule
+Angular range $\theta_{\mathrm{range}}$ & --- & $^\circ$ & --- \\
+Maximum absolute deviation $\tilde\theta_{\mathrm{abs,max}}$ & --- & $^\circ$ & --- \\
+Mean angle $\bar\theta$ & --- & $^\circ$ & --- \\
+Cart range $x_{\mathrm{range}}$ & --- & \placeholder{Unit} & --- \\
+Stabilisation time $t_{\mathrm{stab}}$ & --- & s & \placeholder{Status if unconfirmed} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\figureplaceholder{Insert angle and cart position versus time in aligned panels. Mark control onset, the angular tolerance band, and the qualifying hold interval.}{Controlled operation around SP2.}{fig:sp2}
+
+\subsubsection{Linearisation and comparison with observations}
+\guide{Starting from Equation~\eqref{eq:nonlinear}, apply first-order Taylor expansions about $\hat\theta=0$, $\dot{\hat\theta}=0$, $\ddot{\hat\theta}=0$. Substitute operating-point plus deviation variables, remove equilibrium terms, and neglect products and powers of small deviations. Present the derived equation and explain the gravitational sign and cart-acceleration term. Assess validity using the measured angular deviations. Required derivation: \manual{15--16}. Keep $l$ symbolic unless a supported value is obtained; its numerical value is not in manual.}
+
+\subsection{Disturbance responses around SP2}
+\guide{Introduce every observed event, distinguishing direct observations from interpretations. Use the primary categories ``Motion disturbance'' and ``System disturbance'', then a supported specific category: direct mechanical disturbance; actuation disturbance; measurement or signal disturbance; structural or connection disturbance; combined disturbance; unknown disturbance. Retain plausible alternatives when evidence is inconclusive. Sources: \manual{3--4, 17}.}
+\begin{table}[htbp]
+\centering\small
+\caption{Processed disturbance responses. Each numerical estimate must include its uncertainty.}
+\label{tab:disturbanceresults}
+\begin{tabularx}{\linewidth}{@{}lcccX@{}}
+\toprule
+Event & $\tilde\theta_{\max}$ ($^\circ$) & $\Delta x_{\max}$ (\placeholder{unit}) & $t_r$ (s) & Outcome \\
+\midrule
+\placeholder{ID} & --- & --- & --- & \placeholder{Classification} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\guide{Use the manual's outcome labels: Successful rejection; Marginal recovery; Temporary loss of performance; Loss of stabilisation; System interruption. Definitions are on printed p.~19; explain any overlapping labels. Verbatim restriction: ``Do not assign a numerical force or impulse to a disturbance unless an appropriate force measurement is available.'' \manual{19}}
+\figureplaceholder{Insert event-aligned angle and cart-position plots. Show disturbance onset, local baseline, recovery band, peak response, and recovery hold interval where visible.}{Response to disturbance \placeholder{ID}.}{fig:disturbance}
+\guide{Repeat the event figure or use clearly labelled panels for all events. Describe whether correction remains visible, whether the pendulum leaves the $\pm20^\circ$ activation region, and the final pendulum/cart state. Sources: \manual{18--20}.}
+
+\section{Discussion}
+\label{sec:discussion}
+\guide{Write continuous academic prose under the thematic headings below. Verbatim: ``Do not reproduce the questions or use a numbered question-and-answer format.'' Cover all Part 1 questions (printed p.~13), Part 2 questions (p.~16), and Part 3 questions (pp.~19--20). Required discussion format: \manual{21}.}
+
+\subsection{Natural stability and energy dissipation}
+\guide{Discuss stable-equilibrium evidence, overshoot through equilibrium, damping classification, energy-loss mechanisms, period consistency, amplitude-ratio consistency, peak symmetry, cart coupling, and final position. Explain limitations of an ideal pendulum model. The question about returning to the position ``from which it was released'' is ambiguous between the displaced release position and initial equilibrium; state which positions you compare. Sources: \manual{10--13}.}
+
+\subsection{Feedback stabilisation and model validity}
+\guide{Explain evidence of active feedback, why cart motion is necessary, the roles of P and D, the zero pendulum integral gain, persistent vibrations, activation limits, and differences from SP1. Link the gravitational sign and cart acceleration to your linearisation. The actual design rationale for choosing $K_{i,\theta}=0$ is not in manual; label any explanation as a supported hypothesis or cite the technical reference. Sources: \manual{7--8, 15--16}.}
+
+\subsection{Disturbance rejection and practical limitations}
+\guide{Compare evidence for motion and system disturbances, response order, continued corrective motion, successful and failed recovery, peak-angle versus recovery-time relationships, and different outcomes at similar peak deviations. Discuss P/D responses, actuator or system limits, post-disturbance vibration, model validity, and additional measurements that would distinguish competing explanations. Sources: \manual{17--20}.}
+
+\subsection{Measurement quality and uncertainty}
+\guide{Explain which conclusions remain supported after considering video timing, perspective, reference selection, image resolution, and repeated-measurement variability. Use encoder resolution only with encoder data. Discuss whether apparent SP2 variation is physical motion, measurement uncertainty, or both; report the result of available cross-checks. Sources: \manual{3--4, 9--11, 13, 16, 22}.}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\guide{Summarise the principal findings about natural stability, feedback stabilisation, and disturbance rejection, using your measured results and their uncertainties. Requirement: \manual{21}. Assistant writing suggestion: keep this short and do not introduce new evidence.}
+
+% The bibliography supplies the required References section without BibTeX/Biber.
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\begin{thebibliography}{9}
+\bibitem{labmanual}
+Oslo Metropolitan University,
+\textit{Laboratory Exercise 1: Dynamical Pendulum},
+Dynamical Systems ELI2300, laboratory manual, printed pp.~1--22.
+
+\bibitem{rwm}
+Oslo Metropolitan University,
+\textit{RWM: The Complete Report Writing Manual},
+Mandatory Assignments module.
+
+\bibitem{pendulumthesis}
+H.~Akbari, H.~Aleesami, and Z.~Imtiaz,
+\textit{Real-time control and monitoring pendulum system},
+2026, Mandatory Assignments module.
+\end{thebibliography}
+\guide{Reference details above reproduce those available in the manual, printed pp.~21--22. Consult and cite RWM \cite{rwm} and the technical reference where actually used; add any additional sources. Do not claim to have consulted documents you have not read.}
+
+\clearpage
+\appendix
+\section{Raw observations and repeated measurements}
+\label{app:raw}
+\guide{Attachments must contain all raw observations and repeated measurements. Duplicate the templates below for each separate trial or independent measurement, recording observer and trial/reading ID. Sources: \manual{10, 21--22}.}
+
+\subsection{SP1 raw measurements}
+Trial/reading ID: \placeholder{ID}\quad Observer: \placeholder{Name}
+\begin{table}[htbp]
+\centering
+\caption{Raw SP1 measurements for trial/reading \placeholder{ID}; adapted from TABLE I, printed p.~12.}
+\label{tab:rawsp1}
+\begin{tabularx}{\linewidth}{@{}lccc@{}}
+\toprule
+Quantity & Value & Absolute uncertainty & Unit \\
+\midrule
+Release time $t_0$ & --- & --- & s \\
+Initial angle $\tilde\theta_0$ & --- & --- & $^\circ$ \\
+First selected peak $\tilde\theta_1$ & --- & --- & $^\circ$ \\
+Second selected peak $\tilde\theta_2$ & --- & --- & $^\circ$ \\
+Third selected peak $\tilde\theta_3$ & --- & --- & $^\circ$ \\
+First peak time $t_1$ & --- & --- & s \\
+Second peak time $t_2$ & --- & --- & s \\
+Third peak time $t_3$ & --- & --- & s \\
+Settling time $t_s$ & --- & --- & s \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\guide{Also record initial direction, complete-oscillation count, visible cart motion, final position, additional peaks, and any limitations. At least three selected peaks must be in the same direction. Source: \manual{11}.}
+
+\subsection{SP2 raw measurements}
+Trial/reading ID: \placeholder{ID}\quad Observer: \placeholder{Name}
+\begin{table}[htbp]
+\centering
+\caption{Raw SP2 measurements for trial/reading \placeholder{ID}; adapted from TABLE II, printed p.~14.}
+\label{tab:rawsp2}
+\begin{tabularx}{\linewidth}{@{}lccc@{}}
+\toprule
+Quantity & Value & Absolute uncertainty & Unit \\
+\midrule
+Control onset $t_{\mathrm{on}}$ & --- & --- & s \\
+Maximum positive deviation $\tilde\theta_{\max}$ & --- & --- & $^\circ$ \\
+Maximum negative deviation $\tilde\theta_{\min}$ & --- & --- & $^\circ$ \\
+Maximum cart position $x_{\max}$ & --- & --- & \placeholder{Unit} \\
+Minimum cart position $x_{\min}$ & --- & --- & \placeholder{Unit} \\
+Stabilisation time $t_{\mathrm{stab}}$ & --- & --- & s \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\guide{Record first correction direction and remaining vibrations. Include the sampled angle/position observations used to compute the mean and ranges, with their timestamps and uncertainties. Sources: \manual{14--16, 22}.}
+
+\subsection{Disturbance measurements and observation log}
+\guide{For every event and repeated reading, record $t_d\pm u_{t_d}$, $\tilde\theta_{\max}\pm u_\theta$, $\Delta x_{\max}\pm u_x$, and $t_r\pm u_{t_r}$, with units, following TABLE III, printed p.~18. Also retain the observations used to determine pre-disturbance means, peaks, and recovery. Sources: \manual{18, 22}.}
+\begin{table}[htbp]
+\centering\small
+\caption{Disturbance observation log; keep direct observations separate from interpretations.}
+\label{tab:eventlog}
+\begin{tabularx}{\linewidth}{@{}llXX@{}}
+\toprule
+Event/reading & Time $\pm u_t$ (s) & Direct observation & Interpretation/alternative \\
+\midrule
+\placeholder{ID} & --- & \placeholder{Visible evidence} & \placeholder{Supported explanation} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\guide{Include earliest evidence, primary disturbance type, first responding component, initial pendulum/cart directions, continued correction, exit from the $\pm20^\circ$ region, return to SP2, and final state. Source: \manual{18}.}
+
+\clearpage
+\section{Complete calculations and uncertainty propagation}
+\label{app:calculations}
+\subsection{SP1 calculations}
+\guide{Include all period and peak-ratio calculations, repeated-measurement statistics, frequency calculations, settling assessment, and propagated uncertainties. Sources: \manual{12--13, 22}.}
+\subsection{SP2 calculations}
+\guide{Include extrema and ranges, mean angle, stabilisation criterion checks, complete derivation if only its main steps appear in the report, and propagated uncertainties. Sources: \manual{15--16, 22}.}
+\subsection{Disturbance calculations}
+\guide{Include pre-disturbance averaging intervals and means, per-event peak calculations, recovery hold-interval checks, repeated-measurement statistics, and propagated uncertainties. Sources: \manual{18--19, 22}.}
+
+\section{Supplementary material}
+\label{app:supplementary}
+\guide{Include supporting screenshots, calibration evidence, exported observations, and relevant calculation files if used. These item choices are assistant suggestions; supplementary material is permitted in the attachments by \manual{21--22}. Ensure each included item is identified and referenced in the report.}
+
+\end{document}

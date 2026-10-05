@@ -1,0 +1,289 @@
+\documentclass{article}
+\newif\ifdraft
+\drafttrue
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref}
+\usepackage{booktabs}
+\newcommand{\manual}[1]{\texttt{#1}}
+
+
+
+
+
+\title{Laboratory Exercise 1: Dynamical Pendulum}
+\author{Magnus Støren Wedèn, Jon Magnus Vårheim}
+\date{September 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\subsection{theory}
+
+
+\section{method}
+
+
+\section{First watch observations:}
+\textit{Her har vi gjort veldig macro-vis observasjon av videoen. Denne delen skal inneholde forklaring av hva vi ser på.
+Eks:
+SP1 kan observeres i dette tidsrommet. Her ser vi pendulumen oscillerer om dette punktet. Kaya dytter på pendulumen. etc etc
+SP2 kan observes i dette tidsrommet. Her er en ytre kraft eller kontroller som påvirker systemet slik at pendulumen balanaseres om sitt nye setpoint. etc etc}
+
+- Settle point 1. 8s - 38.5s\\
+- Settle point 2. 53s - 1:09 (controlled upright balancing)\\
+- Disturbances 1:54 - 2:01\\
+
+- Disturbance events time stamps\\
+1:55.215-248\\
+1:56.083-116\\
+1:56.850-950\\
+1:57.784-884\\
+2:00.354-454\\
+
+Paste this in place of the existing **“Video and available data”** subsection and interval table. It uses the packages and `\manual{}` command already in your template.
+
+**Assumption:** `1:55.215–248` means `00:01:55.215–00:01:55.248`. The five distinct event windows are retained below.
+
+The wording uses **Stable Point** and separates visible behaviour from possible explanations. Your approximate SP1 endpoint, **38.5 s**, differs from the exported boundary, **38.885 s**; the table uses the export. It also includes your second SP2 interval.
+
+```latex
+\subsection{Video overview and selected analysis intervals}
+\label{sec:video-overview}
+
+An initial qualitative review of the video was used to identify
+the main phases of the experiment before taking detailed
+measurements. The review focused on the overall motion of the
+pendulum and cart, changes in operating condition, and possible
+disturbance events. This follows the observation procedure
+described in the laboratory manual. \manual{3--4}
+
+The recording was divided into intervals covering natural motion
+around Stable Point 1 (SP1), controlled operation around Stable
+Point 2 (SP2), and disturbances during upright operation.
+SP1 denotes the naturally stable downward equilibrium, whereas
+SP2 denotes the upright equilibrium maintained by feedback
+control. \manual{2, 6--8}
+
+For the SP1 intervals, the analysis considers displacement and
+release of the pendulum, its subsequent oscillation about the
+downward equilibrium, and any visible cart motion.
+For the SP2 intervals, the analysis considers angular deviations
+from upright and the associated corrective cart movements.
+The disturbance interval is examined more closely to identify
+changes in motion, the sequence of visible responses, and the
+subsequent recovery or loss of stabilisation.
+\manual{10--11, 14--20}
+
+Table~\ref{tab:intervals} lists the selected analysis intervals.
+Timestamps refer to the original recording and use the format
+hh:mm:ss.sss. The timestamps and frame boundaries were obtained
+from the segment exports and matched by segment name.
+The interval descriptions identify the intended focus of the
+analysis; they do not establish the cause of an observed event.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Selected analysis intervals in the original video,
+    with timestamps and exported frame boundaries.}
+    \label{tab:intervals}
+    \begin{tabular}{@{}lccrr@{}}
+        \toprule
+        Analysis interval
+        & Start time
+        & End time
+        & \shortstack{Start\\frame}
+        & \shortstack{End\\frame} \\
+        \midrule
+        SP1: initial observation
+        & 00:00:08.041 & 00:00:11.812 & 241 & 354 \\
+
+        SP1: input/disturbance
+        & 00:00:12.980 & 00:00:15.452 & 389 & 463 \\
+
+        SP1: input/disturbance continued
+        & 00:00:20.287 & 00:00:23.790 & 608 & 713 \\
+
+        SP1: oscillation
+        & 00:00:33.188 & 00:00:38.885 & 995 & 1165 \\
+
+        SP2: controlled operation 1
+        & 00:00:53.020 & 00:01:09.937 & 1589 & 2096 \\
+
+        SP2: controlled operation 2
+        & 00:01:13.974 & 00:01:22.616 & 2217 & 2476 \\
+
+        SP2: disturbance sequence
+        & 00:01:54.015 & 00:02:01.197 & 3417 & 3632 \\
+        \bottomrule
+    \end{tabular}
+
+    \smallskip
+    \begin{minipage}{\linewidth}
+        \footnotesize
+        \textit{Source:} Timestamp and frame segment exports
+        for the laboratory video.
+        \textit{Note:} The exports do not specify whether
+        frame numbering begins at zero or one, or whether
+        the end frame is included. Frame values are therefore
+        reported as exported boundary indices.
+    \end{minipage}
+\end{table}
+
+\subsubsection{Candidate disturbance-event windows}
+\label{sec:disturbance-windows}
+
+Within the selected disturbance sequence, five candidate
+event windows were marked for closer inspection, as listed
+in Table~\ref{tab:disturbance-windows}.
+These windows guide the frame-by-frame analysis.
+They are preliminary event locations, rather than confirmed
+disturbance durations or onset-time uncertainty intervals.
+
+For each candidate event, direct observations are recorded
+before a disturbance mechanism is proposed. The analysis
+considers which component responds first, whether corrective
+cart motion remains visible, and whether the pendulum returns
+to upright operation. Where the evidence does not support a
+reliable explanation, the disturbance is classified as unknown.
+\manual{3--4, 17--20}
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Preliminary disturbance-event windows in the
+    original video. Timestamps use hh:mm:ss.sss.}
+    \label{tab:disturbance-windows}
+    \begin{tabular}{@{}ccc@{}}
+        \toprule
+        Candidate event & Window start & Window end \\
+        \midrule
+        D1 & 00:01:55.215 & 00:01:55.248 \\
+        D2 & 00:01:56.083 & 00:01:56.116 \\
+        D3 & 00:01:56.850 & 00:01:56.950 \\
+        D4 & 00:01:57.784 & 00:01:57.884 \\
+        D5 & 00:02:00.354 & 00:02:00.454 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+```
+
+
+\section{Second watch observations:}
+
+
+
+\section{results}
+noen notater:
+Section 1:
+x(t) = 0 - cart i midtpunkt \newline
+x´(t) = 0 - cart står stille \newline
+x´´(t) = 0 - cart aksellerer ikke \newline
+\(\phi\)(t) = 0 - pendulum i SP1, ingen radiell displacement \newline
+\(\phi\)´(t) = 0 - Pendulum i SP1, stasjonær, ingen velocity \newline
+\(\phi\)´´(t) = 0 - pendulum har ingen radiell aksellerasjon \newline
+M = ? \SI{1.12}{kg} - masse til cart \newline
+m = ?\SI{0.120}{kg} - masse til pendulum \newline
+l = ? \SI{ 0.0139231}{} \newline
+Jp = \newline
+bp = \newline
+g = 9.8m/\(s^2\) \newline
+\(\phi\)ref(t) = SP1 = \(0\circ \) = 0 rad \newline
+Xref(t) == x(t) = 0 - cart i midtpunkt\newline
+
+
+
+
+
+\section{analysis}
+
+\section{discussion}
+uncertainty of starting point
+
+-angle/wiev
+-fps
+-cart position
+
+
+\textbf{Part 1: SP1 - Questions and Answers}
+
+\begin{enumerate}
+
+ \item What visual evidence indicates that SP1 is a stable equilibrium?
+
+ That the pendulum returns toward the downward position after being displaced. No external control is needed to bring it back toward equilibrium.
+
+ \item Why does the pendulum pass through SP1 rather than stopping immediately?
+
+ Because the pendulum has kinetic energy. This makes it continue past the equilibrium position before reversing direction.
+
+ \item Classify the response as underdamped, critically damped or overdamped. Support the
+classification using the observed motion
+
+The response is underdamped: the pendulum oscillates several times before coming to rest. The amplitude gradually decreases with time.
+
+\item Why does the oscillation amplitude decrease with time?
+
+The mechanical energy is lost due to friction and air resistance.
+
+\item Which physical effects are likely to dissipate mechanical energy?
+
+Mechanical energy is dissipated through pivot friction, rolling friction in the cart, bearing friction, and air resistance.
+
+\item Does the oscillation period remain approximately constant? Support the answer using
+the calculated periods.
+
+Yes. The calculated periods are similar, and the small differences are within the measurement uncertainty. Therefore, the period can be considered approximately constant.
+
+\item Are the successive amplitude ratios approximately constant?
+
+Yes. The calculated amplitude ratios are close to each other, this means that the oscillation amplitude decreases at a fairly constant rate.
+
+\item Are the positive and negative peak displacements approximately symmetric? If not,
+suggest possible explanations.
+
+The peaks are not perfectly symmetric. This may be caused by friction, slight measurement errors, camera perspective, or small movements of the cart.
+
+\item Does any cart motion affect the pendulum response and how?
+
+Yes. As the pendulum swings, it makes the cart move slightly. This gives energy from the pendulum to the cart and increases the damping.
+
+\item How do the video frame rate, camera perspective, encoder resolution and choice of
+equilibrium reference affect the measurement uncertainty?
+
+A low frame rate makes it harder to determine exact timestamps. Camera perspective can make angles appear different. Image quality also affect angle measurements. 
+
+\item Does the pendulum return to precisely the same final position from which it was
+released? Explain any observed difference
+
+No. Small differences can occur because of friction, measurement uncertainty, and mechanical imperfections in the system.
+
+\item Which observed-motion aspects can be omitted by a simple ideal pendulum model?
+
+An ideal pendulum model ignores air resistance, friction, cart motion, measurement noise, and other real-world effects. It assumes a fixed pivot and no energy losses.
+
+ \end{enumerate}
+
+ \textbf{Part 2: SP2 - Questions and Answers}
+
+\begin{enumerate}
+
+ \item What evidence indicates that the feedback controller is active?
+
+ \item
+
+\end{enumerate}
+
+
+
+\section{conclusion}
+
+\section{}
+www.when2meet.com:
+
+\url{https://www.when2meet.com/?38389767-u2wP9}
+\section{references}
+\section{attachments}
+\end{document}
